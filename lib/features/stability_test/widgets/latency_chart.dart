@@ -23,8 +23,9 @@ class LatencyChart extends StatelessWidget {
         .where((TestResult r) => r.status != ResultStatus.cancelled)
         .toList(growable: false);
     final List<TestResult> successes = plottable
-        .where((TestResult r) =>
-            r.isSuccessful && r.elapsedMilliseconds != null)
+        .where(
+          (TestResult r) => r.isSuccessful && r.elapsedMilliseconds != null,
+        )
         .toList(growable: false);
 
     final bool hasSuccess = successes.isNotEmpty;
@@ -34,8 +35,9 @@ class LatencyChart extends StatelessWidget {
       Container(
         padding: const EdgeInsets.fromLTRB(8, 16, 16, 8),
         decoration: BoxDecoration(
-          color: CupertinoColors.secondarySystemGroupedBackground
-              .resolveFrom(context),
+          color: CupertinoColors.secondarySystemGroupedBackground.resolveFrom(
+            context,
+          ),
           borderRadius: BorderRadius.circular(12),
         ),
         child: hasSuccess
@@ -47,7 +49,10 @@ class LatencyChart extends StatelessWidget {
   }
 
   Widget _chart(
-      BuildContext context, List<TestResult> plottable, List<TestResult> successes) {
+    BuildContext context,
+    List<TestResult> plottable,
+    List<TestResult> successes,
+  ) {
     final double maxY = successes
         .map((TestResult r) => r.elapsedMilliseconds!.toDouble())
         .reduce((double a, double b) => a > b ? a : b);
@@ -59,8 +64,12 @@ class LatencyChart extends StatelessWidget {
     for (int i = 0; i < successes.length; i++) {
       final int xOnAxis = plottable.indexOf(successes[i]);
       spotIndex[i] = successes[i];
-      lineSpots.add(FlSpot(xOnAxis.toDouble(),
-          successes[i].elapsedMilliseconds!.toDouble()));
+      lineSpots.add(
+        FlSpot(
+          xOnAxis.toDouble(),
+          successes[i].elapsedMilliseconds!.toDouble(),
+        ),
+      );
     }
     // Assign colours per spot: only success points lie on the line, but we
     // still vary colour in case of future extension.
@@ -106,15 +115,16 @@ class LatencyChart extends StatelessWidget {
                 ),
                 getTouchedSpotIndicator:
                     (LineChartBarData barData, List<int> spotIndexes) {
-                  return spotIndexes.map((int index) {
-                    return TouchedSpotIndicatorData(
-                      const FlLine(
-                          color: CupertinoColors.activeBlue,
-                          strokeWidth: 1),
-                      const FlDotData(show: false),
-                    );
-                  }).toList();
-                },
+                      return spotIndexes.map((int index) {
+                        return TouchedSpotIndicatorData(
+                          const FlLine(
+                            color: CupertinoColors.activeBlue,
+                            strokeWidth: 1,
+                          ),
+                          const FlDotData(show: false),
+                        );
+                      }).toList();
+                    },
               ),
               gridData: FlGridData(
                 show: true,
@@ -127,28 +137,35 @@ class LatencyChart extends StatelessWidget {
               ),
               titlesData: FlTitlesData(
                 topTitles: const AxisTitles(
-                    sideTitles: SideTitles(showTitles: false)),
+                  sideTitles: SideTitles(showTitles: false),
+                ),
                 rightTitles: const AxisTitles(
-                    sideTitles: SideTitles(showTitles: false)),
+                  sideTitles: SideTitles(showTitles: false),
+                ),
                 bottomTitles: AxisTitles(
                   axisNameWidget: const Padding(
                     padding: EdgeInsets.only(top: 6),
-                    child: Text('測試序號',
-                        style: TextStyle(
-                            fontSize: 11,
-                            color: CupertinoColors.secondaryLabel)),
+                    child: Text(
+                      '測試序號',
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: CupertinoColors.secondaryLabel,
+                      ),
+                    ),
                   ),
                   sideTitles: SideTitles(
                     showTitles: true,
                     reservedSize: 28,
-                    getTitlesWidget: (double value, TitleMeta meta) =>
-                        Padding(
+                    getTitlesWidget: (double value, TitleMeta meta) => Padding(
                       padding: const EdgeInsets.only(top: 6),
                       child: Text(
-                        value.toInt().toString(),
+                        // X axis is 0-based internally (list index); display as
+                        // 1-based so it matches the run's sequence numbers.
+                        (value.toInt() + 1).toString(),
                         style: const TextStyle(
-                            fontSize: 11,
-                            color: CupertinoColors.secondaryLabel),
+                          fontSize: 11,
+                          color: CupertinoColors.secondaryLabel,
+                        ),
                       ),
                     ),
                   ),
@@ -156,10 +173,13 @@ class LatencyChart extends StatelessWidget {
                 leftTitles: AxisTitles(
                   axisNameWidget: const Padding(
                     padding: EdgeInsets.only(right: 4),
-                    child: Text('延遲（ms）',
-                        style: TextStyle(
-                            fontSize: 11,
-                            color: CupertinoColors.secondaryLabel)),
+                    child: Text(
+                      '延遲（ms）',
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: CupertinoColors.secondaryLabel,
+                      ),
+                    ),
                   ),
                   sideTitles: SideTitles(
                     showTitles: true,
@@ -168,8 +188,9 @@ class LatencyChart extends StatelessWidget {
                     getTitlesWidget: (double value, TitleMeta meta) => Text(
                       value.toInt().toString(),
                       style: const TextStyle(
-                          fontSize: 11,
-                          color: CupertinoColors.secondaryLabel),
+                        fontSize: 11,
+                        color: CupertinoColors.secondaryLabel,
+                      ),
                     ),
                   ),
                 ),
@@ -183,16 +204,22 @@ class LatencyChart extends StatelessWidget {
                   color: CupertinoColors.activeBlue,
                   dotData: FlDotData(
                     show: true,
-                    getDotPainter: (FlSpot spot, double percent,
-                        LineChartBarData barData, int index) {
-                      return FlDotCirclePainter(
-                        radius: 4,
-                        color: spotColors[index] ?? CupertinoColors.activeBlue,
-                        strokeColor:
-                            CupertinoColors.systemBackground.resolveFrom(context),
-                        strokeWidth: 1,
-                      );
-                    },
+                    getDotPainter:
+                        (
+                          FlSpot spot,
+                          double percent,
+                          LineChartBarData barData,
+                          int index,
+                        ) {
+                          return FlDotCirclePainter(
+                            radius: 4,
+                            color:
+                                spotColors[index] ?? CupertinoColors.activeBlue,
+                            strokeColor: CupertinoColors.systemBackground
+                                .resolveFrom(context),
+                            strokeWidth: 1,
+                          );
+                        },
                   ),
                   belowBarData: BarAreaData(show: false),
                 ),
@@ -201,9 +228,11 @@ class LatencyChart extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 8),
-        _Legend(present: <ResultStatus>{
-          for (final TestResult r in plottable) r.status,
-        }),
+        _Legend(
+          present: <ResultStatus>{
+            for (final TestResult r in plottable) r.status,
+          },
+        ),
       ],
     );
   }
@@ -218,7 +247,9 @@ class LatencyChart extends StatelessWidget {
   }
 
   String _semanticsSummary(
-      List<TestResult> plottable, List<TestResult> successes) {
+    List<TestResult> plottable,
+    List<TestResult> successes,
+  ) {
     if (plottable.isEmpty) return '沒有可顯示的延遲資料';
     return '延遲走勢圖，共 ${plottable.length} 次已嘗試測試，'
         '當中 ${successes.length} 次成功。';
@@ -250,40 +281,42 @@ class _Legend extends StatelessWidget {
 
   static const Map<ResultStatus, (Color, String)> defs =
       <ResultStatus, (Color, String)>{
-    ResultStatus.success: (CupertinoColors.activeBlue, '成功 ●'),
-    ResultStatus.httpError: (CupertinoColors.systemOrange, 'HTTP 錯誤 ▲'),
-    ResultStatus.timeout: (CupertinoColors.systemRed, '超時 ✕'),
-    ResultStatus.connectionError: (CupertinoColors.systemRed, '網絡錯誤 ■'),
-    ResultStatus.dnsError: (CupertinoColors.systemRed, 'DNS 錯誤 ■'),
-    ResultStatus.tlsError: (CupertinoColors.systemRed, 'TLS 錯誤 ■'),
-    ResultStatus.tooManyRedirects: (CupertinoColors.systemRed, '重新導向過多 ■'),
-    ResultStatus.responseTooLarge: (CupertinoColors.systemRed, '回應過大 ■'),
-    ResultStatus.unknownError: (CupertinoColors.systemRed, '未知錯誤 ■'),
-  };
+        ResultStatus.success: (CupertinoColors.activeBlue, '成功 ●'),
+        ResultStatus.httpError: (CupertinoColors.systemOrange, 'HTTP 錯誤 ▲'),
+        ResultStatus.timeout: (CupertinoColors.systemRed, '超時 ✕'),
+        ResultStatus.connectionError: (CupertinoColors.systemRed, '網絡錯誤 ■'),
+        ResultStatus.dnsError: (CupertinoColors.systemRed, 'DNS 錯誤 ■'),
+        ResultStatus.tlsError: (CupertinoColors.systemRed, 'TLS 錯誤 ■'),
+        ResultStatus.tooManyRedirects: (CupertinoColors.systemRed, '重新導向過多 ■'),
+        ResultStatus.responseTooLarge: (CupertinoColors.systemRed, '回應過大 ■'),
+        ResultStatus.unknownError: (CupertinoColors.systemRed, '未知錯誤 ■'),
+      };
 
   @override
   Widget build(BuildContext context) {
     final List<Widget> chips = <Widget>[];
     for (final MapEntry<ResultStatus, (Color, String)> e in defs.entries) {
       if (present.contains(e.key)) {
-        chips.add(Padding(
-          padding: const EdgeInsets.only(right: 12, bottom: 4),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Container(
-                width: 8,
-                height: 8,
-                margin: const EdgeInsets.only(right: 4),
-                decoration: BoxDecoration(
-                  color: e.value.$1,
-                  shape: BoxShape.circle,
+        chips.add(
+          Padding(
+            padding: const EdgeInsets.only(right: 12, bottom: 4),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Container(
+                  width: 8,
+                  height: 8,
+                  margin: const EdgeInsets.only(right: 4),
+                  decoration: BoxDecoration(
+                    color: e.value.$1,
+                    shape: BoxShape.circle,
+                  ),
                 ),
-              ),
-              Text(e.value.$2, style: const TextStyle(fontSize: 11)),
-            ],
+                Text(e.value.$2, style: const TextStyle(fontSize: 11)),
+              ],
+            ),
           ),
-        ));
+        );
       }
     }
     return Wrap(children: chips);
