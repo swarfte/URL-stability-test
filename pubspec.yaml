@@ -35,6 +35,15 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
 
+  # HTTP client for cross-platform GET requests (spec §2.1).
+  http: ^1.4.0
+
+  # Simple key-value local storage for the most recent test settings (spec §16).
+  shared_preferences: ^2.3.0
+
+  # Line chart for the latency trend view (spec §11.4).
+  fl_chart: ^0.70.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
