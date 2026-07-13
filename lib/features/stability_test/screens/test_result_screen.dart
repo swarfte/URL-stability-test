@@ -189,7 +189,11 @@ class _TestResultScreenState extends State<TestResultScreen> {
         children: <Widget>[
           Text(
             config.url,
-            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
+            style: const TextStyle(
+              color: CupertinoColors.label,
+              fontWeight: FontWeight.w600,
+              fontSize: 15,
+            ),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),

@@ -95,6 +95,7 @@ class _StatRow extends StatelessWidget {
           Text(
             value,
             style: const TextStyle(
+              color: CupertinoColors.label,
               fontWeight: FontWeight.w500,
               fontFeatures: <FontFeature>[FontFeature.tabularFigures()],
             ),
@@ -152,6 +153,7 @@ class _MetricCard extends StatelessWidget {
               child: Text(
                 value,
                 style: const TextStyle(
+                  color: CupertinoColors.label,
                   fontSize: 24,
                   fontWeight: FontWeight.w600,
                   fontFeatures: <FontFeature>[FontFeature.tabularFigures()],

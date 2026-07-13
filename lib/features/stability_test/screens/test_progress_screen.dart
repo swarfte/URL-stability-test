@@ -195,6 +195,7 @@ class _TestProgressScreenState extends State<TestProgressScreen> {
           Text(
             config.url,
             style: const TextStyle(
+              color: CupertinoColors.label,
               fontWeight: FontWeight.w600,
               fontSize: 15,
             ),
@@ -273,6 +274,7 @@ class _TestProgressScreenState extends State<TestProgressScreen> {
               child: Text(
                 r.httpStatusCode?.toString() ?? p.symbol,
                 style: const TextStyle(
+                  color: CupertinoColors.label,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -284,7 +286,7 @@ class _TestProgressScreenState extends State<TestProgressScreen> {
                     ? '${r.elapsedMilliseconds} ms'
                     : '—',
                 textAlign: TextAlign.right,
-                style: const TextStyle(),
+                style: const TextStyle(color: CupertinoColors.label),
               ),
             ),
             const SizedBox(width: 12),
