@@ -31,8 +31,9 @@ class _TestResultScreenState extends State<TestResultScreen> {
   void initState() {
     super.initState();
     final StatisticsService stats = const StatisticsService();
-    _stats = stats
-        .compute(widget.controller.session?.results.toList() ?? const <Never>[]);
+    _stats = stats.compute(
+      widget.controller.session?.results.toList() ?? const <Never>[],
+    );
   }
 
   bool get _isCancelled =>
@@ -63,15 +64,15 @@ class _TestResultScreenState extends State<TestResultScreen> {
   void _editSettings() {
     // Pop back to setup; the setup screen keeps its own state via the
     // restored configuration in storage. Spec §11.6.
-    Navigator.of(context)
-        .popUntil((Route<dynamic> route) => route.settings.name == AppRoutes.setup);
+    Navigator.of(context).popUntil(
+      (Route<dynamic> route) => route.settings.name == AppRoutes.setup,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final TestSession? session = widget.controller.session;
-    final bool empty =
-        session == null || session.results.isEmpty;
+    final bool empty = session == null || session.results.isEmpty;
     final String title = _isCancelled ? '未完成的測試' : '測試結果';
 
     return CupertinoPageScaffold(
@@ -83,9 +84,7 @@ class _TestResultScreenState extends State<TestResultScreen> {
       child: ResponsiveContentBox(
         wideMaxWidth: 1200,
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-        child: empty
-            ? _emptyState()
-            : _body(context, session),
+        child: empty ? _emptyState() : _body(context, session),
       ),
     );
   }
@@ -180,8 +179,9 @@ class _TestResultScreenState extends State<TestResultScreen> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: CupertinoColors.secondarySystemGroupedBackground
-            .resolveFrom(context),
+        color: CupertinoColors.secondarySystemGroupedBackground.resolveFrom(
+          context,
+        ),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -202,14 +202,18 @@ class _TestResultScreenState extends State<TestResultScreen> {
             '${connectionModeShortLabel(config.connectionMode)} · '
             '$status ${session.completedCount} / ${config.testCount} 次',
             style: const TextStyle(
-                color: CupertinoColors.secondaryLabel, fontSize: 13),
+              color: CupertinoColors.secondaryLabel,
+              fontSize: 13,
+            ),
           ),
           if (session.completedAt != null) ...<Widget>[
             const SizedBox(height: 4),
             Text(
               formatDateTime(session.completedAt!),
               style: const TextStyle(
-                  color: CupertinoColors.secondaryLabel, fontSize: 13),
+                color: CupertinoColors.secondaryLabel,
+                fontSize: 13,
+              ),
             ),
           ],
         ],
@@ -225,7 +229,7 @@ class _TestResultScreenState extends State<TestResultScreen> {
           children: <Widget>[
             Expanded(
               child: SizedBox(
-                height: 48,
+                height: 52,
                 child: CupertinoButton.filled(
                   onPressed: _retest,
                   child: const Text('再次測試'),
@@ -235,12 +239,14 @@ class _TestResultScreenState extends State<TestResultScreen> {
             const SizedBox(width: 12),
             Expanded(
               child: SizedBox(
-                height: 48,
+                height: 52,
                 child: CupertinoButton(
                   color: CupertinoColors.secondarySystemGroupedBackground,
                   onPressed: _editSettings,
-                  child: const Text('修改設定',
-                      style: TextStyle(color: CupertinoColors.label)),
+                  child: const Text(
+                    '修改設定',
+                    style: TextStyle(color: CupertinoColors.label),
+                  ),
                 ),
               ),
             ),
