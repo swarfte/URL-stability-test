@@ -9,9 +9,16 @@ import 'shared/storage/settings_storage.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // System-wide Chrome theming is intentionally minimal: the app uses
-  // Cupertino widgets throughout, which resolve their own colours for both
-  // light and dark mode (spec §13.2).
+  // Force Light Mode app-wide (per project request). Setting the application
+  // style to light keeps native system bars / overlays on a light style, while
+  // CupertinoApp overrides platformBrightness in lib/app/app.dart so every
+  // Cupertino system colour resolves to its light variant.
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: CupertinoColors.transparent,
+    statusBarIconBrightness: Brightness.dark,
+    statusBarBrightness: Brightness.light,
+  ));
+
   await SystemChrome.setPreferredOrientations(<DeviceOrientation>[
     DeviceOrientation.portraitUp,
     DeviceOrientation.landscapeLeft,

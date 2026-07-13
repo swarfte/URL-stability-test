@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 
 import '../../../shared/storage/settings_storage.dart';
@@ -95,6 +97,11 @@ class _TestSetupScreenState extends State<TestSetupScreen> {
     widget.storage.saveConfiguration(config).catchError((_) {});
 
     if (!mounted) return;
+    // Start the run before navigating. The progress screen detects an
+    // already-running session and shows progress immediately; if it found the
+    // session null (as it did previously) it would pop right back to this
+    // screen, producing the "nothing happens" symptom.
+    unawaited(widget.controller.start(config));
     await Navigator.of(context).pushNamed(AppRoutes.progress);
   }
 

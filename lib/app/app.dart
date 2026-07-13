@@ -30,6 +30,16 @@ class UrlStabilityTestApp extends StatelessWidget {
       title: 'URL 穩定性測試',
       debugShowCheckedModeBanner: false,
       theme: buildCupertinoTheme(),
+      // Force Light Mode regardless of the system setting. We override
+      // platformBrightness so every CupertinoDynamicColor / system colour
+      // resolves to its light variant. (Per project request: light only.)
+      builder: (BuildContext context, Widget? child) {
+        return MediaQuery(
+          data: MediaQuery.of(context)
+              .copyWith(platformBrightness: Brightness.light),
+          child: child!,
+        );
+      },
       onGenerateRoute: _onGenerateRoute,
     );
   }
