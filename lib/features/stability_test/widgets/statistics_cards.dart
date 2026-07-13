@@ -57,9 +57,9 @@ class SecondaryStatisticsTable extends StatelessWidget {
       ),
       child: Column(
         children: <Widget>[
-          _StatRow(label: 'Median', value: formatLatencyMs(statistics.medianMs)),
-          _StatRow(label: 'P95', value: formatLatencyMs(statistics.p95Ms)),
-          _StatRow(label: 'Jitter', value: formatLatencyMs(statistics.jitterMs)),
+          _StatRow(label: '中位數（Median）', value: formatLatencyMs(statistics.medianMs)),
+          _StatRow(label: '第 95 百分位（P95）', value: formatLatencyMs(statistics.p95Ms)),
+          _StatRow(label: '抖動（Jitter）', value: formatLatencyMs(statistics.jitterMs)),
           const _Divider(),
           _StatRow(
               label: '成功',
