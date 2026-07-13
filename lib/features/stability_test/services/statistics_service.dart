@@ -116,9 +116,12 @@ class StatisticsService {
       maximumMs: _usToRoundedMs(sorted.last.toDouble()),
       medianMs: _usToRoundedMs(_median(sorted)),
       p95Ms: _usToRoundedMs(_p95(sorted)),
-      jitterMs: _usToRoundedMs(_jitter(orderedSuccesses
-          .map((TestResult r) => r.elapsedMicroseconds!)
-          .toList(growable: false))),
+      // Jitter requires at least two successes; otherwise N/A (spec §10.6).
+      jitterMs: orderedSuccesses.length >= 2
+          ? _usToRoundedMs(_jitter(orderedSuccesses
+              .map((TestResult r) => r.elapsedMicroseconds!)
+              .toList(growable: false)))
+          : null,
       timeoutCount: timeoutCount,
       httpErrorCount: httpErrorCount,
       otherErrorCount: otherErrorCount,
