@@ -153,6 +153,13 @@ class LatencyChart extends StatelessWidget {
                       ),
                     ),
                   ),
+                  // fl_chart lays the axisNameWidget out inside a fixed-height
+                  // SizedBox of [axisNameSize] (default 16). The default is too
+                  // short for 4 CJK glyphs at fontSize 11, so the bottom of the
+                  // text gets clipped regardless of the chart's overall height.
+                  // 20 comfortably fits the line height; reservedSize covers
+                  // the numeric tick labels above it.
+                  axisNameSize: 20,
                   sideTitles: SideTitles(
                     showTitles: true,
                     reservedSize: 28,
