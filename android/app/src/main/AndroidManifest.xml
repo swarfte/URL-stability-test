@@ -1,4 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Required for HTTP(S) requests (spec §20.1). -->
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:label="url_stability_test"
         android:name="${applicationName}"
