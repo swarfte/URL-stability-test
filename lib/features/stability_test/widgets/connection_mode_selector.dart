@@ -1,42 +1,4 @@
-import 'package:flutter/cupertino.dart';
-
 import '../models/connection_mode.dart';
-
-/// Cupertino segmented control for the two mutually-exclusive connection
-/// modes. Spec §6.2.
-class ConnectionModeSelector extends StatelessWidget {
-  const ConnectionModeSelector({
-    required this.value,
-    required this.onChanged,
-    super.key,
-  });
-
-  final ConnectionMode value;
-  final ValueChanged<ConnectionMode> onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    return Semantics(
-      label: '連線模式選擇器',
-      child: CupertinoSlidingSegmentedControl<ConnectionMode>(
-        groupValue: value,
-        onValueChanged: (ConnectionMode? mode) {
-          if (mode != null) onChanged(mode);
-        },
-        children: const <ConnectionMode, Widget>{
-          ConnectionMode.reuseClient: Padding(
-            padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-            child: Text('正常連線'),
-          ),
-          ConnectionMode.newClientPerRequest: Padding(
-            padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-            child: Text('每次新連線'),
-          ),
-        },
-      ),
-    );
-  }
-}
 
 /// The user-facing description text for a connection mode (spec §6.2.1/6.2.2).
 String connectionModeDescription(ConnectionMode mode) {
@@ -49,7 +11,7 @@ String connectionModeDescription(ConnectionMode mode) {
   }
 }
 
-/// Short label for summary rows (spec §7.2, §11.2).
+/// Short label for summary rows and the option picker (spec §6.2, §7.2, §11.2).
 String connectionModeShortLabel(ConnectionMode mode) {
   switch (mode) {
     case ConnectionMode.reuseClient:

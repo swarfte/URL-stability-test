@@ -67,7 +67,7 @@ class SecondaryStatisticsTable extends StatelessWidget {
                   '${statistics.completedCount}'),
           _StatRow(
               label: 'HTTP 錯誤', value: '${statistics.httpErrorCount}'),
-          _StatRow(label: 'Timeout', value: '${statistics.timeoutCount}'),
+          _StatRow(label: '超時', value: '${statistics.timeoutCount}'),
           _StatRow(
               label: '其他錯誤', value: '${statistics.otherErrorCount}'),
         ],

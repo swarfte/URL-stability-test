@@ -40,8 +40,10 @@ class _TestSetupScreenState extends State<TestSetupScreen> {
   late TestInterval _interval;
   late TestTimeout _timeout;
 
-  UrlValidationResult _validation =
-      const UrlValidationResult(isValid: false, normalizedUrl: null);
+  UrlValidationResult _validation = const UrlValidationResult(
+    isValid: false,
+    normalizedUrl: null,
+  );
   bool _edited = false;
 
   static const UrlValidationService _validator = UrlValidationService();
@@ -74,8 +76,7 @@ class _TestSetupScreenState extends State<TestSetupScreen> {
     });
   }
 
-  bool get _canStart =>
-      _validation.isValid && !widget.controller.isRunning;
+  bool get _canStart => _validation.isValid && !widget.controller.isRunning;
 
   Future<void> _startTest() async {
     // Collapse the keyboard and re-validate (spec §6.6).
@@ -171,7 +172,7 @@ class _TestSetupScreenState extends State<TestSetupScreen> {
       header: const Text('測試目標'),
       children: <Widget>[
         CupertinoFormRow(
-          prefix: const Text('測試 URL'),
+          prefix: const Text('URL'),
           error: _edited && !_validation.isValid
               ? Text(_validation.error ?? 'URL 無效')
               : null,
@@ -195,8 +196,11 @@ class _TestSetupScreenState extends State<TestSetupScreen> {
                       _urlController.clear();
                       _onUrlChanged('');
                     },
-                    child: const Icon(CupertinoIcons.xmark_circle_fill,
-                        size: 18, color: CupertinoColors.tertiaryLabel),
+                    child: const Icon(
+                      CupertinoIcons.xmark_circle_fill,
+                      size: 18,
+                      color: CupertinoColors.tertiaryLabel,
+                    ),
                   ),
             decoration: BoxDecoration(
               color: CupertinoColors.tertiarySystemFill.resolveFrom(context),
@@ -212,13 +216,13 @@ class _TestSetupScreenState extends State<TestSetupScreen> {
     return CupertinoFormSection.insetGrouped(
       header: const Text('連線設定'),
       children: <Widget>[
-        CupertinoFormRow(
-          prefix: const Text('連線模式'),
-          child: ConnectionModeSelector(
-            value: _connectionMode,
-            onChanged: (ConnectionMode mode) =>
-                setState(() => _connectionMode = mode),
-          ),
+        OptionPickerRow<ConnectionMode>(
+          label: '連線模式',
+          value: _connectionMode,
+          options: ConnectionMode.values,
+          labelOf: connectionModeShortLabel,
+          onChanged: (ConnectionMode mode) =>
+              setState(() => _connectionMode = mode),
         ),
         Padding(
           padding: const EdgeInsets.fromLTRB(20, 4, 20, 8),
@@ -230,12 +234,12 @@ class _TestSetupScreenState extends State<TestSetupScreen> {
             ),
           ),
         ),
-        CupertinoFormRow(
-          prefix: const Text('測試次數'),
-          child: _TestCountSelector(
-            value: _testCount,
-            onChanged: (int c) => setState(() => _testCount = c),
-          ),
+        OptionPickerRow<int>(
+          label: '測試次數',
+          value: _testCount,
+          options: TestConfiguration.selectableTestCounts,
+          labelOf: (int c) => '$c',
+          onChanged: (int c) => setState(() => _testCount = c),
         ),
         OptionPickerRow<TestInterval>(
           label: '測試間隔',
@@ -245,7 +249,7 @@ class _TestSetupScreenState extends State<TestSetupScreen> {
           onChanged: (TestInterval i) => setState(() => _interval = i),
         ),
         OptionPickerRow<TestTimeout>(
-          label: 'Timeout',
+          label: '超時',
           value: _timeout,
           options: TestTimeout.options,
           labelOf: (TestTimeout t) => t.label,
@@ -300,46 +304,19 @@ class _TestSetupScreenState extends State<TestSetupScreen> {
       child: const Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Icon(CupertinoIcons.exclamationmark_triangle_fill,
-              size: 18, color: CupertinoColors.systemOrange),
+          Icon(
+            CupertinoIcons.exclamationmark_triangle_fill,
+            size: 18,
+            color: CupertinoColors.systemOrange,
+          ),
           SizedBox(width: 8),
           Expanded(
             child: Text(
               '此 URL 使用未加密 HTTP 連線。部分平台或網絡可能會阻擋此連線。',
-              style: TextStyle(
-                fontSize: 13,
-                color: CupertinoColors.label,
-              ),
+              style: TextStyle(fontSize: 13, color: CupertinoColors.label),
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _TestCountSelector extends StatelessWidget {
-  const _TestCountSelector({required this.value, required this.onChanged});
-
-  final int value;
-  final ValueChanged<int> onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    return Semantics(
-      label: '測試次數選擇器',
-      child: CupertinoSlidingSegmentedControl<int>(
-        groupValue: value,
-        onValueChanged: (int? v) {
-          if (v != null) onChanged(v);
-        },
-        children: <int, Widget>{
-          for (final int count in TestConfiguration.selectableTestCounts)
-            count: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-              child: Text('$count'),
-            ),
-        },
       ),
     );
   }

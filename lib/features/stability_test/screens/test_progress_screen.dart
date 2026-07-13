@@ -204,7 +204,7 @@ class _TestProgressScreenState extends State<TestProgressScreen> {
           const SizedBox(height: 6),
           Text(
             '${connectionModeShortLabel(config.connectionMode)} · '
-            '${config.testCount} 次 · Timeout ${config.timeout.label}',
+            '${config.testCount} 次 · 超時 ${config.timeout.label}',
             style: const TextStyle(
               color: CupertinoColors.secondaryLabel,
               fontSize: 13,
