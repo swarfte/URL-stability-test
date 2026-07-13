@@ -52,8 +52,7 @@ class _TestProgressScreenState extends State<TestProgressScreen> {
     if (s != null && s.status != SessionStatus.running && mounted) {
       // Run ended — go to the result screen, replacing this route so back from
       // the result screen lands on setup rather than here.
-      Navigator.of(context)
-          .pushReplacementNamed(AppRoutes.result);
+      Navigator.of(context).pushReplacementNamed(AppRoutes.result);
     }
   }
 
@@ -111,8 +110,8 @@ class _TestProgressScreenState extends State<TestProgressScreen> {
     final int done = session?.completedCount ?? 0;
     final int total = session?.configuredCount ?? 0;
     final String statusText = _phaseText(c.phase, done);
-    final List<TestResult> recent = session?.results.reversed.toList() ??
-        const <TestResult>[];
+    final List<TestResult> recent =
+        session?.results.reversed.toList() ?? const <TestResult>[];
 
     // Intercept Android back / navigator back via PopScope (spec §7.1).
     return PopScope<Object?>(
@@ -145,26 +144,23 @@ class _TestProgressScreenState extends State<TestProgressScreen> {
             children: <Widget>[
               _summaryHeader(session),
               const SizedBox(height: 16),
-              ProgressSummary(
-                done: done,
-                total: total,
-                statusText: statusText,
-              ),
+              ProgressSummary(done: done, total: total, statusText: statusText),
               const SizedBox(height: 16),
               _interimStats(c.statisticsSnapshot),
               const SizedBox(height: 16),
               _recentResultsSection(recent),
               const SizedBox(height: 12),
               SizedBox(
-                height: 48,
+                height: 52,
                 child: CupertinoButton(
                   color: CupertinoColors.destructiveRed,
                   onPressed: _onCancelPressed,
                   child: const Text(
                     '取消測試',
                     style: TextStyle(
-                        color: CupertinoColors.white,
-                        fontWeight: FontWeight.w600),
+                      color: CupertinoColors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),
@@ -185,8 +181,9 @@ class _TestProgressScreenState extends State<TestProgressScreen> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: CupertinoColors.secondarySystemGroupedBackground
-            .resolveFrom(context),
+        color: CupertinoColors.secondarySystemGroupedBackground.resolveFrom(
+          context,
+        ),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -223,8 +220,9 @@ class _TestProgressScreenState extends State<TestProgressScreen> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: CupertinoColors.secondarySystemGroupedBackground
-            .resolveFrom(context),
+        color: CupertinoColors.secondarySystemGroupedBackground.resolveFrom(
+          context,
+        ),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -238,15 +236,13 @@ class _TestProgressScreenState extends State<TestProgressScreen> {
             ),
           ),
           const SizedBox(height: 8),
+          _StatRow(label: '平均', value: formatLatencyMs(stats.averageMs)),
+          _StatRow(label: '最快', value: formatLatencyMs(stats.minimumMs)),
+          _StatRow(label: '最慢', value: formatLatencyMs(stats.maximumMs)),
           _StatRow(
-              label: '平均', value: formatLatencyMs(stats.averageMs)),
-          _StatRow(
-              label: '最快', value: formatLatencyMs(stats.minimumMs)),
-          _StatRow(
-              label: '最慢', value: formatLatencyMs(stats.maximumMs)),
-          _StatRow(
-              label: '成功率',
-              value: formatSuccessRate(stats.successRatePercent)),
+            label: '成功率',
+            value: formatSuccessRate(stats.successRatePercent),
+          ),
         ],
       ),
     );
@@ -258,50 +254,59 @@ class _TestProgressScreenState extends State<TestProgressScreen> {
     }
     final List<Widget> rows = <Widget>[];
     for (final TestResult r in recent.take(5)) {
-      final ResultStatusPresentation p =
-          ResultStatusPresentation.forStatus(r.status);
-      rows.add(Padding(
-        padding: const EdgeInsets.symmetric(vertical: 6),
-        child: Row(
-          children: <Widget>[
-            SizedBox(
-              width: 28,
-              child: Text('#${r.sequenceNumber}',
-                  style: const TextStyle(
-                      color: CupertinoColors.secondaryLabel)),
-            ),
-            Expanded(
-              child: Text(
-                r.httpStatusCode?.toString() ?? p.symbol,
-                style: const TextStyle(
-                  color: CupertinoColors.label,
-                  fontWeight: FontWeight.w500,
+      final ResultStatusPresentation p = ResultStatusPresentation.forStatus(
+        r.status,
+      );
+      rows.add(
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 6),
+          child: Row(
+            children: <Widget>[
+              SizedBox(
+                width: 28,
+                child: Text(
+                  '#${r.sequenceNumber}',
+                  style: const TextStyle(color: CupertinoColors.secondaryLabel),
                 ),
               ),
-            ),
-            SizedBox(
-              width: 72,
-              child: Text(
-                r.isSuccessful && r.elapsedMilliseconds != null
-                    ? '${r.elapsedMilliseconds} ms'
-                    : '—',
-                textAlign: TextAlign.right,
-                style: const TextStyle(color: CupertinoColors.label),
+              Expanded(
+                child: Text(
+                  r.httpStatusCode?.toString() ?? p.symbol,
+                  style: const TextStyle(
+                    color: CupertinoColors.label,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               ),
-            ),
-            const SizedBox(width: 12),
-            Text(p.label,
+              SizedBox(
+                width: 72,
+                child: Text(
+                  r.isSuccessful && r.elapsedMilliseconds != null
+                      ? '${r.elapsedMilliseconds} ms'
+                      : '—',
+                  textAlign: TextAlign.right,
+                  style: const TextStyle(color: CupertinoColors.label),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Text(
+                p.label,
                 style: const TextStyle(
-                    color: CupertinoColors.secondaryLabel, fontSize: 13)),
-          ],
+                  color: CupertinoColors.secondaryLabel,
+                  fontSize: 13,
+                ),
+              ),
+            ],
+          ),
         ),
-      ));
+      );
     }
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: CupertinoColors.secondarySystemGroupedBackground
-            .resolveFrom(context),
+        color: CupertinoColors.secondarySystemGroupedBackground.resolveFrom(
+          context,
+        ),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -350,14 +355,18 @@ class _StatRow extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Text(label,
-              style: const TextStyle(color: CupertinoColors.secondaryLabel)),
+          Text(
+            label,
+            style: const TextStyle(color: CupertinoColors.secondaryLabel),
+          ),
           // tabular-ish via fixed alignment; numbers right-aligned.
-          Text(value,
-              style: const TextStyle(
-                color: CupertinoColors.label,
-                fontFeatures: <FontFeature>[],
-              )),
+          Text(
+            value,
+            style: const TextStyle(
+              color: CupertinoColors.label,
+              fontFeatures: <FontFeature>[],
+            ),
+          ),
         ],
       ),
     );

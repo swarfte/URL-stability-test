@@ -262,7 +262,7 @@ class _TestSetupScreenState extends State<TestSetupScreen> {
   Widget _startButton() {
     final bool enabled = _canStart;
     return SizedBox(
-      height: 48,
+      height: 52,
       child: CupertinoButton(
         // Filled style when enabled; disabled appearance otherwise. Spec §6.6,
         // §24.3 (Enabled/Disabled states).
