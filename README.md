@@ -13,11 +13,19 @@ distribution, success rate, timeouts, and per-attempt detail.
 The UI is written in Traditional Chinese (繁體中文) with an Apple-inspired
 Cupertino look.
 
+## Screenshots
+
+| Setup | In progress | Results |
+| :---: | :---: | :---: |
+| <img src="public/screenshot/setup_screen.jpg" alt="Test setup screen — enter URL and configure connection mode, count, interval, timeout" width="280"> | <img src="public/screenshot/progress_screen.jpg" alt="Test progress screen — live progress bar, interim statistics, and recent attempts" width="280"> | <img src="public/screenshot/result_screen.jpg" alt="Test results screen — summary metrics, latency trend chart, and per-attempt detail" width="280"> |
+| Configure the URL, connection mode, test count, interval, and timeout. | Watch each request complete with a live progress bar and interim stats. | Review averages, P95, jitter, success rate, and the latency trend chart. |
+
 ---
 
 ## Table of contents
 
 - [Features](#features)
+- [Screenshots](#screenshots)
 - [What it is (and isn't)](#what-it-is-and-isnt)
 - [Supported platforms](#supported-platforms)
 - [How a test works](#how-a-test-works)
