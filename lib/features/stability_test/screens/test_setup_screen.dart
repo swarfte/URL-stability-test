@@ -172,7 +172,10 @@ class _TestSetupScreenState extends State<TestSetupScreen> {
       header: const Text('測試目標'),
       children: <Widget>[
         CupertinoFormRow(
-          prefix: const Text('URL'),
+          prefix: const Padding(
+            padding: EdgeInsets.only(right: 12),
+            child: Text('URL'),
+          ),
           error: _edited && !_validation.isValid
               ? Text(_validation.error ?? 'URL 無效')
               : null,
