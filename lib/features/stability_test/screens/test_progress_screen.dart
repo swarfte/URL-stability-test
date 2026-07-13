@@ -354,7 +354,10 @@ class _StatRow extends StatelessWidget {
               style: const TextStyle(color: CupertinoColors.secondaryLabel)),
           // tabular-ish via fixed alignment; numbers right-aligned.
           Text(value,
-              style: const TextStyle(fontFeatures: <FontFeature>[])),
+              style: const TextStyle(
+                color: CupertinoColors.label,
+                fontFeatures: <FontFeature>[],
+              )),
         ],
       ),
     );
