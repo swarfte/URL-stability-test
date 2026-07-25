@@ -3,7 +3,7 @@
 ;
 ; /DMyAppName=UrlStabilityTest
 ; /DMyAppExeName=url_stability_test.exe
-; /DMyAppVersion=1.0.0
+; /DMyAppVersion=1.0.1
 ; /DBuildDir=...
 ; /DOutputDir=...
 ;
